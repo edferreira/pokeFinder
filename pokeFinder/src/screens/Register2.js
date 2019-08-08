@@ -11,6 +11,7 @@ import BackgroundView from "../components/backgroundView";
 import NextButton from "../components/nextButton";
 import { findPokemon } from "../app";
 import { Navigation } from "react-native-navigation";
+import Separator from "../components/separator";
 
 export default function Register2({ name }) {
   return (
@@ -33,7 +34,7 @@ export default function Register2({ name }) {
             });
           }}
         >
-          <View style={{ height: 20, backgroundColor: "white" }} />
+          <Separator style={{ marginTop: 30 }} />
         </TouchableOpacity>
       </View>
       <NextButton

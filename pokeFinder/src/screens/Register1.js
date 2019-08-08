@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
+
+import { Navigation } from "react-native-navigation";
+import { topBarOptions } from "../app";
+
 import BackgroundView from "../components/backgroundView";
 import NextButton from "../components/nextButton";
-import { Navigation } from "react-native-navigation";
+import Separator from "../components/separator";
 
 export default function Register1({ componentId }) {
   const [name, setName] = useState("");
@@ -14,7 +18,13 @@ export default function Register1({ componentId }) {
       </Text>
       <View>
         <Text style={styles.text}>First we need to know your name...</Text>
-        <TextInput value={name} onChangeText={name => setName(name)} />
+        <TextInput
+          style={styles.text}
+          value={name}
+          onChangeText={name => setName(name)}
+          underlineColorAndroid="transparent"
+        />
+        <Separator />
       </View>
       <NextButton
         onPress={() =>
@@ -23,7 +33,8 @@ export default function Register1({ componentId }) {
               name: "Register2",
               passProps: {
                 name
-              }
+              },
+              options: { ...topBarOptions }
             }
           })
         }

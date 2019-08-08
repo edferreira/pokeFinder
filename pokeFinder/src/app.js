@@ -28,20 +28,25 @@ export function start() {
   });
 }
 
-export function registerUser() {
-  Navigation.setDefaultOptions({
-    topBar: {
-      noBorder: true,
-      visible: true,
-      drawBehind: true,
-      transparent: true,
-      translucent: true,
-      background: { color: "transparent" },
-      elevation: 0,
-      backButton: {
-        color: "white"
-      }
-    },
+export const topBarOptions = {
+  topBar: {
+    noBorder: true,
+    visible: true,
+    drawBehind: true,
+    transparent: true,
+    translucent: true,
+    background: { color: "transparent" },
+    elevation: 0,
+    enabled: true,
+    backButton: {
+      color: "white"
+    }
+  }
+};
+
+// export function registerUser() {
+//   Navigation.setDefaultOptions({
+    ...topBarOptions,
     modalPresentationStyle: "overCurrentContext"
   });
   Navigation.setRoot({
@@ -50,7 +55,10 @@ export function registerUser() {
         children: [
           {
             component: {
-              name: "Register1"
+              name: "Register1",
+              options: {
+                ...topBarOptions
+              }
             }
           }
         ]
