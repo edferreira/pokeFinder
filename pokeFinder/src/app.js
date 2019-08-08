@@ -4,11 +4,13 @@ import Home from "./screens/Home";
 import Register1 from "./screens/Register1";
 import Register2 from "./screens/Register2";
 import PokemonTypeModal from "./screens/PokemonTypeModal";
+import FindPokemon from "./screens/FindPokemon";
 
 Navigation.registerComponent(`Home`, () => Home);
 Navigation.registerComponent(`Register1`, () => Register1);
 Navigation.registerComponent(`Register2`, () => Register2);
 Navigation.registerComponent(`PokemonTypeModal`, () => PokemonTypeModal);
+Navigation.registerComponent(`FindPokemon`, () => FindPokemon);
 
 export function start() {
   Navigation.events().registerAppLaunchedListener(() => {
@@ -44,8 +46,8 @@ export const topBarOptions = {
   }
 };
 
-// export function registerUser() {
-//   Navigation.setDefaultOptions({
+export function registerUser() {
+  Navigation.setDefaultOptions({
     ...topBarOptions,
     modalPresentationStyle: "overCurrentContext"
   });
@@ -68,17 +70,13 @@ export const topBarOptions = {
 }
 
 export function findPokemon() {
-  Navigation.setDefaultOptions({});
   Navigation.setRoot({
     root: {
-      stack: {
-        children: [
-          {
-            component: {
-              name: "Register1"
-            }
-          }
-        ]
+      component: {
+        name: "FindPokemon",
+        options: {
+          topBar: {}
+        }
       }
     }
   });

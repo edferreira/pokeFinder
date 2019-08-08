@@ -14,6 +14,11 @@ import { Navigation } from "react-native-navigation";
 import Separator from "../components/separator";
 
 export default function Register2({ name }) {
+  const [selectedType, setPokemonType] = useState({
+    name: undefined,
+    index: undefined
+  });
+
   return (
     <BackgroundView style={styles.container}>
       <Text style={[styles.text, styles.title]}>Hello, trainer {name}!</Text>
@@ -29,17 +34,24 @@ export default function Register2({ name }) {
                 options: {
                   screenBackgroundColor: "transparent",
                   modalPresentationStyle: "overCurrentContext"
+                },
+                passProps: {
+                  callback: setPokemonType,
+                  selectedType
                 }
               }
             });
           }}
         >
-          <Separator style={{ marginTop: 30 }} />
+          <Text style={[styles.text, styles.inpytStyle]}>
+            {selectedType.name}
+          </Text>
+          <Separator style={{ marginTop: 14 }} />
         </TouchableOpacity>
       </View>
       <NextButton
         onPress={() => {
-          findPokemon();
+          findPokemon(selectedType.index);
         }}
       />
     </BackgroundView>
@@ -59,5 +71,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26
+  },
+  inputStyle: {
+    marginVertical: 8
   }
 });

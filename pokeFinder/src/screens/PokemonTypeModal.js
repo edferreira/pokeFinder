@@ -12,32 +12,7 @@ import MyButton from "../components/myButton";
 import PokemonTypeItem from "../components/pokemonTypeItem";
 import { Navigation } from "react-native-navigation";
 
-const renderItem = ({ item, index, favorites, setFavorite }) => {
-  return (
-    <View>
-      <Text>{item.name}</Text>
-      <TouchableOpacity
-        onPress={item => {
-          setFavorite(favoriteItems => {
-            let isFavorite = favoriteItems.includes(item);
-            if (isFavorite) {
-              return favoriteItems.filter(title => title !== item);
-            }
-            return [item, ...favoriteItems];
-          });
-        }}
-      >
-        {index === selectedType ? (
-          <Image source={require("../../Assets/radio-on.png")} />
-        ) : (
-          <Image source={require("../../Assets/radio-off.png")} />
-        )}
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-export default function PokemonTypeModal({ componentId }) {
+export default function PokemonTypeModal({ componentId, callback, ...props }) {
   [pokemonTypes, setPokemonTypes] = useState([]);
   [selectedType, setSelectedType] = useState(0);
 
@@ -48,6 +23,12 @@ export default function PokemonTypeModal({ componentId }) {
       })
       .catch();
   }, []);
+
+  useEffect(() => {
+    if (props.selectedType.index) {
+      setSelectedType(props.selectedType.index);
+    }
+  }, [props.selectedType]);
 
   return (
     <View style={styles.modalContainer}>
@@ -63,7 +44,7 @@ export default function PokemonTypeModal({ componentId }) {
           </TouchableOpacity>
         </View>
         <FlatList
-          data={pokemonTypes.slice(0, 3)}
+          data={pokemonTypes}
           renderItem={({ item, index }) => (
             <PokemonTypeItem
               item={item}
@@ -76,7 +57,13 @@ export default function PokemonTypeModal({ componentId }) {
         />
         <MyButton
           style={{ marginBottom: 10 }}
-          onPress={() => {}}
+          onPress={() => {
+            Navigation.dismissModal(componentId);
+            callback({
+              name: pokemonTypes[selectedType].name,
+              index: selectedType
+            });
+          }}
           text="Confirm"
         />
       </View>

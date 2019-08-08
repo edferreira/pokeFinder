@@ -6,8 +6,6 @@ import MyButton from "../components/myButton";
 import { registerUser } from "../app";
 
 export default function Home({ componentId }) {
-  console.log(componentId);
-
   return (
     <BackgroundView>
       <View style={styles.container}>
