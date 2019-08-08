@@ -50,7 +50,8 @@ export default function PokemonTypeModal({ componentId, callback, ...props }) {
               item={item}
               index={index}
               setSelectedType={setSelectedType}
-              selectedType={selectedType}
+              selected={selectedType === index}
+              style={{ paddingVertical: 4, paddingHorizontal: 40 }}
             />
           )}
           extraData={selectedType}

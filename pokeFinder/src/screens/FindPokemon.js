@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList, Text, Image } from "react-native";
 import BackgroundView from "../components/backgroundView";
 import { getPokemonTypes } from "../services/getPokemonTypes";
 import { getPokemons } from "../services/getPokemons";
+import PokemonTypeList from "../components/pokemonTypeList";
 
 export default function FindPokemon({ componentId, selectedType }) {
   [pokemonTypes, setPokemonTypes] = useState([]);
@@ -32,29 +33,17 @@ export default function FindPokemon({ componentId, selectedType }) {
     <View style={styles.container}>
       <View style={styles.header} />
       <View style={styles.listContainer}>
-        <FlatList
-          horizontal={true}
-          data={pokemonTypes}
-          renderItem={({ item, index }) => (
-            <View key={index} style={{ flex: 1 }}>
-              <Image
-                source={{ uri: item.thumbnailImage }}
-                style={{ width: 90, height: 90 }}
-              />
-              <Text style={[styles.filterText, { textAlign: "center" }]}>
-                {item.name}
-              </Text>
-            </View>
-          )}
-        />
-        <FlatList
-          data={pokemonList}
-          renderItem={({ item, index }) => (
-            <View key={index}>
-              <Text>{item.name}</Text>
-            </View>
-          )}
-        />
+        <PokemonTypeList pokemonTypes={pokemonTypes} />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={pokemonList}
+            renderItem={({ item, index }) => (
+              <View key={index}>
+                <Text>{item.name}</Text>
+              </View>
+            )}
+          />
+        </View>
       </View>
     </View>
   );
@@ -70,16 +59,10 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: "white",
-    flex: 1
+    flexGrow: 1
   },
   filterText: {
     color: "black",
     fontSize: 20
-  },
-  logo: {
-    marginTop: 40
-  },
-  pikachuImage: {
-    alignSelf: "flex-end"
   }
 });
