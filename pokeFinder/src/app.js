@@ -69,13 +69,13 @@ export function registerUser() {
   });
 }
 
-export function findPokemon() {
+export function findPokemon(selectedType) {
   Navigation.setRoot({
     root: {
       component: {
         name: "FindPokemon",
-        options: {
-          topBar: {}
+        passProps: {
+          selectedType
         }
       }
     }

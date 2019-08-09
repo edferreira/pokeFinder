@@ -11,18 +11,11 @@ const renderCheckbox = selected => {
   );
 };
 
-function PokemonTypeItem(props) {
-  const {
-    item,
-    index,
-    setSelectedType,
-    selected,
-    style,
-    itemDirection
-  } = props;
+export default function ListItem(props) {
+  const { item, selectionCallback, selected, style, selectable } = props;
 
   return (
-    <View key={`${index}-${item.name}`} style={[styles.itemContainer, style]}>
+    <View style={[styles.itemContainer, style]}>
       <View
         style={{
           flexDirection: "row",
@@ -36,29 +29,30 @@ function PokemonTypeItem(props) {
         />
         <Text style={[styles.text]}>{item.name}</Text>
       </View>
-      <TouchableOpacity
-        style={{
-          paddingLeft: 20,
-          paddingVertical: 10,
-          justifyContent: "center"
-        }}
-        onPress={() => setSelectedType(index)}
-      >
-        {renderCheckbox(selected)}
-      </TouchableOpacity>
+      {selectable ? (
+        <TouchableOpacity
+          style={{
+            paddingLeft: 20,
+            paddingVertical: 10,
+            justifyContent: "center"
+          }}
+          onPress={() => selectionCallback(item.name)}
+        >
+          {renderCheckbox(selected)}
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }
 
-PokemonTypeItem.propTypes = {
-  item: PropTypes.func.isRequired,
+ListItem.propTypes = {
+  item: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
-  setSelectedType: PropTypes.func.isRequired,
+  selectionCallback: PropTypes.func,
   selected: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
+  selectable: PropTypes.bool
 };
-
-export default PokemonTypeItem;
 
 const styles = StyleSheet.create({
   itemContainer: {

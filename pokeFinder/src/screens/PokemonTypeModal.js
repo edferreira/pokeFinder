@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { getPokemonTypes } from "../services/getPokemonTypes";
 import MyButton from "../components/myButton";
-import PokemonTypeItem from "../components/pokemonTypeItem";
 import { Navigation } from "react-native-navigation";
+import ListItem from "../components/listItem";
 
 export default function PokemonTypeModal({ componentId, callback, ...props }) {
   [pokemonTypes, setPokemonTypes] = useState([]);
@@ -25,10 +25,10 @@ export default function PokemonTypeModal({ componentId, callback, ...props }) {
   }, []);
 
   useEffect(() => {
-    if (props.selectedType.index) {
-      setSelectedType(props.selectedType.index);
+    if (props.pokemonType) {
+      setSelectedType(props.pokemonType);
     }
-  }, [props.selectedType]);
+  }, [props.pokemonType]);
 
   return (
     <View style={styles.modalContainer}>
@@ -46,12 +46,13 @@ export default function PokemonTypeModal({ componentId, callback, ...props }) {
         <FlatList
           data={pokemonTypes}
           renderItem={({ item, index }) => (
-            <PokemonTypeItem
+            <ListItem
               item={item}
               index={index}
-              setSelectedType={setSelectedType}
-              selected={selectedType === index}
+              selectionCallback={setSelectedType}
+              selected={selectedType === item.name}
               style={{ paddingVertical: 4, paddingHorizontal: 40 }}
+              selectable={true}
             />
           )}
           extraData={selectedType}
@@ -60,10 +61,7 @@ export default function PokemonTypeModal({ componentId, callback, ...props }) {
           style={{ marginBottom: 10 }}
           onPress={() => {
             Navigation.dismissModal(componentId);
-            callback({
-              name: pokemonTypes[selectedType].name,
-              index: selectedType
-            });
+            callback(selectedType);
           }}
           text="Confirm"
         />
