@@ -4,12 +4,15 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Text,
+  Image
 } from "react-native";
 import { getPokemonTypes } from "../services/getPokemonTypes";
 import { getPokemons } from "../services/getPokemons";
 import PokemonTypeList from "../components/pokemonTypeList";
 import ListItem from "../components/listItem";
+import Search from "../components/search";
 
 const sortByName = (order = "desc") => (item1, item2) => {
   /**
@@ -70,7 +73,7 @@ export default function FindPokemon(props) {
   const getFilteredList = () => {
     let returnList = pokemonList.filter(item => {
       return (
-        item.type.indexOf(selectedType) > -1 &&
+        (!selectedType || item.type.indexOf(selectedType) > -1) &&
         (!searchFilter ||
           item.name.toUpperCase().includes(searchFilter.toUpperCase()))
       );
@@ -83,11 +86,7 @@ export default function FindPokemon(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TextInput
-          style={{ height: 40 }}
-          value={searchFilter}
-          onChangeText={searchFilter => setSearchFilter(searchFilter)}
-        />
+        <Search value={searchFilter} setSearchFilter={setSearchFilter} />
       </View>
       <View style={styles.listContainer}>
         <PokemonTypeList
@@ -97,7 +96,28 @@ export default function FindPokemon(props) {
         <TouchableOpacity
           onPress={() => setTypeOfOrder(typeOfOrder === "asc" ? "desc" : "asc")}
         >
-          <View style={{ height: 30, backgroundColor: "black" }} />
+          <View
+            style={{
+              paddingVertical: 15,
+              paddingHorizontal: 20,
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <Text style={styles.text}>Pokemon</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.text}>Name</Text>
+              <Image
+                style={{
+                  height: 15,
+                  width: 15,
+                  marginLeft: 10,
+                  rotation: typeOfOrder == "asc" ? 0 : 180
+                }}
+                source={require("../../Assets/arrow.png")}
+              />
+            </View>
+          </View>
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <FlatList
@@ -119,7 +139,8 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: "#2ac6a2",
-    height: 60
+    height: 60,
+    padding: 2
   },
   listContainer: {
     backgroundColor: "white",
@@ -128,5 +149,9 @@ const styles = StyleSheet.create({
   filterText: {
     color: "black",
     fontSize: 20
+  },
+  text: {
+    fontWeight: "500",
+    fontSize: 16
   }
 });
